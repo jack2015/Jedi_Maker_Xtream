@@ -150,7 +150,24 @@ def buildXMLTVSourceFile():
         xml_str = '<?xml version="1.0" encoding="utf-8"?>\n'
         xml_str += '<sources>\n'
         xml_str += '<sourcecat sourcecatname="IPTV ' + str(cleanName) + '">\n'
-        xml_str += '<source type="gen_xmltv" nocheck="1" channels="' + channelpath + '">\n'
+        xml_str += '<source type="gen_xmltv" nocheck="1" '
+
+        import datetime
+        if sys.version_info.major == 3:
+            import zoneinfo
+            offset = int(datetime.datetime.now(zoneinfo.ZoneInfo(jglob.current_playlist['user_info']['timezone'])).strftime('%z')) * -1
+        else:
+            import time
+            server_datestamp = datetime.datetime.strptime(str(jglob.current_playlist['server_info']['time_now']), "%Y-%m-%d %H:%M:%S")
+            utc_datestamp = datetime.datetime.utcfromtimestamp(time.time())
+            offset = utc_datestamp - server_datestamp
+            if offset.days == -1:
+                offset = (86400 - offset.seconds) / -3600
+            else:
+                offset = offset.seconds / 3600
+        xml_str += 'offset="' + '%+05d' % (offset * 100,) + '" '
+
+        xml_str += 'channels="' + channelpath + '">\n'
         xml_str += '<description>' + str(cleanName) + '</description>\n'
         if jglob.fixepg:
             xml_str += '<url><![CDATA[' + str(filepath + 'jmx.' + str(cleanName) + '.xmltv2.xml') + ']]></url>\n'

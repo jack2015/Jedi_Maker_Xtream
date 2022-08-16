@@ -216,8 +216,11 @@ class JediMakerXtream_Update(Screen):
                 if 'user_info' in self.active:
                     if self.active['user_info']['auth'] == 1:
                         self.valid = True
+                        jglob.current_playlist['user_info'] = self.active['user_info']
                     else:
                         self.valid = False
+                if 'server_info' in self.active:
+                    jglob.current_playlist['server_info'] = self.active['server_info']
             except:
                 self.valid = False
                 pass

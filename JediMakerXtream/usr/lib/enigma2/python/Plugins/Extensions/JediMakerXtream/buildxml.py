@@ -155,7 +155,7 @@ def buildXMLTVSourceFile():
         import datetime
         if sys.version_info.major == 3:
             import zoneinfo
-            offset = int(datetime.datetime.now(zoneinfo.ZoneInfo(jglob.current_playlist['user_info']['timezone'])).strftime('%z')) * -1
+            offset = int(datetime.datetime.now(zoneinfo.ZoneInfo(jglob.current_playlist['server_info']['timezone'])).strftime('%z')) * -1
         else:
             import time
             server_datestamp = datetime.datetime.strptime(str(jglob.current_playlist['server_info']['time_now']), "%Y-%m-%d %H:%M:%S")

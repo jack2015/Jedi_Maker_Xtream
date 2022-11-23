@@ -155,7 +155,7 @@ def buildXMLTVSourceFile():
         import datetime
         if sys.version_info.major == 3:
             import zoneinfo
-            offset = int(datetime.datetime.now(zoneinfo.ZoneInfo(jglob.current_playlist['server_info']['timezone'])).strftime('%z')) * -1
+            offset = int(datetime.datetime.now(zoneinfo.ZoneInfo(jglob.current_playlist['server_info']['timezone'])).strftime('%z')) / -100
         else:
             import time
             server_datestamp = datetime.datetime.strptime(str(jglob.current_playlist['server_info']['time_now']), "%Y-%m-%d %H:%M:%S")
@@ -165,7 +165,7 @@ def buildXMLTVSourceFile():
                 offset = (86400 - offset.seconds) / -3600
             else:
                 offset = offset.seconds / 3600
-        xml_str += 'offset="' + '%+05d' % (offset * 100,) + '" '
+        xml_str += 'offset="' + '%+05d' % (offset * 100) + '" '
 
         xml_str += 'channels="' + channelpath + '">\n'
         xml_str += '<description>' + str(cleanName) + '</description>\n'
